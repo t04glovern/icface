@@ -1,0 +1,85 @@
+# ICface
+
+Repository cleanup of [Blade6570/icface](https://github.com/Blade6570/icface) while I play around with it.
+
+## Setup
+
+The general requirements are as follows:
+
+- Python 3.7
+- Pytorch 0.4.1.post2
+- Visdom and dominate
+- Natsort
+
+### Pretrained Model
+
+The following command uses `aws s3` to pull the pretrained model to `src/checkpoints/gpubatch_resnet/`
+
+```bash
+./data_get.sh get
+```
+
+### Conda
+
+I've ported all this into a nice little conda environment for you to use
+
+```bash
+conda env create -f environment.yml
+conda env create -f environment-dlib.yml
+cd src
+```
+
+## Generate Image
+
+```bash
+# Activate dlib conda
+conda activate icface-dlib
+
+# Generate ./crop/1.png
+python image_crop.py
+```
+
+## Generate Video
+
+```bash
+# Activate icface conda
+conda activate icface
+
+# Generate a sample video
+python test.py \
+    --dataroot ./ \
+    --model pix2pix \
+    --which_model_netG resnet_6blocks \
+    --which_direction AtoB \
+    --dataset_mode aligned \
+    --norm batch \
+    --display_id 0 \
+    --batchSize 1 \
+    --loadSize 128 \
+    --fineSize 128 \
+    --no_flip \
+    --name gpubatch_resnet \
+    --how_many 1 \
+    --ndf 256 \
+    --ngf 128 \
+    --which_ref ./crop/1.png \
+    --gpu_ids 0 \
+    --csv_path ./crop/videos/00296.csv \
+    --results_dir results_video
+
+# Splice the audio
+ffmpeg -i ./crop/out.mp4 -i ./crop/videos/00296.mp4 -c copy -map 0:0 -map 1:1 -shortest ./crop/out_audio.mp4
+```
+
+## Attribution
+
+- [https://github.com/Blade6570/icface](https://github.com/Blade6570/icface)
+
+```bash
+@article{tripathy+kannala+rahtu,
+  title={ICface: Interpretable and Controllable Face Reenactment Using GANs},
+  author={Tripathy, Soumya and Kannala, Juho and Rahtu, Esa},
+  journal={arXiv preprint arXiv:1904.01909},
+  year={2019}
+}
+```

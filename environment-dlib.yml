@@ -1,0 +1,13 @@
+name: icface-dlib
+channels:
+  - conda-forge
+
+dependencies:
+  - python==3.6
+  - dlib
+  - numpy
+  - pandas
+  - pip:
+    - opencv-python
+    - imutils
+    - Pillow

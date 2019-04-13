@@ -1,0 +1,16 @@
+name: icface
+channels:
+  - conda-forge
+
+dependencies:
+  - python==3.7
+  - dominate
+  - numpy
+  - pandas
+  - pip:
+    - natsort
+    - opencv-python
+    - torch==0.4.1.post2
+    - torchvision
+    - imutils
+    - Pillow
