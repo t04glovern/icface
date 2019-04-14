@@ -36,7 +36,9 @@ cd src
 conda activate icface-dlib
 
 # Generate ./crop/1.png
-python image_crop.py
+python image_crop.py \
+  --image ./crop/test/trump.jpeg \
+  --id 1
 ```
 
 ## Generate Video
@@ -47,28 +49,28 @@ conda activate icface
 
 # Generate a sample video
 python test.py \
-    --dataroot ./ \
-    --model pix2pix \
-    --which_model_netG resnet_6blocks \
-    --which_direction AtoB \
-    --dataset_mode aligned \
-    --norm batch \
-    --display_id 0 \
-    --batchSize 1 \
-    --loadSize 128 \
-    --fineSize 128 \
-    --no_flip \
-    --name gpubatch_resnet \
-    --how_many 1 \
-    --ndf 256 \
-    --ngf 128 \
-    --which_ref ./crop/1.png \
-    --gpu_ids 0 \
-    --csv_path ./crop/videos/00296.csv \
-    --results_dir results_video
+  --dataroot ./ \
+  --model pix2pix \
+  --which_model_netG resnet_6blocks \
+  --which_direction AtoB \
+  --dataset_mode aligned \
+  --norm batch \
+  --display_id 0 \
+  --batchSize 1 \
+  --loadSize 128 \
+  --fineSize 128 \
+  --no_flip \
+  --name gpubatch_resnet \
+  --how_many 1 \
+  --ndf 256 \
+  --ngf 128 \
+  --which_ref ./crop/<video-id>.png \
+  --gpu_ids 0 \
+  --csv_path ./crop/videos/<input-video>.csv \
+  --results_dir results_video
 
 # Splice the audio
-ffmpeg -i ./crop/out.mp4 -i ./crop/videos/00296.mp4 -c copy -map 0:0 -map 1:1 -shortest ./crop/out_audio.mp4
+ffmpeg -i ./crop/out.mp4 -i ./crop/videos/<input-video>.mp4 -c copy -map 0:0 -map 1:1 -shortest ./crop/out_audio.mp4
 ```
 
 ## Generating Action Points
@@ -76,7 +78,8 @@ ffmpeg -i ./crop/out.mp4 -i ./crop/videos/00296.mp4 -c copy -map 0:0 -map 1:1 -s
 ```bash
 # Outside Container
 docker run -it --rm algebr/openface:latest
-docker ps -a
+
+# Outside Container (new terminal window)
 docker cp src/crop/videos/<video-id>.mp4 <docker-container>:/home/openface-build
 
 # Within container (/home/openface-build)
