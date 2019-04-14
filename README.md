@@ -71,6 +71,21 @@ python test.py \
 ffmpeg -i ./crop/out.mp4 -i ./crop/videos/00296.mp4 -c copy -map 0:0 -map 1:1 -shortest ./crop/out_audio.mp4
 ```
 
+## Generating Action Points
+
+```bash
+# Outside Container
+docker run -it --rm algebr/openface:latest
+docker ps -a
+docker cp src/crop/videos/<video-id>.mp4 <docker-container>:/home/openface-build
+
+# Within container (/home/openface-build)
+./build/bin/FeatureExtraction -f <video-id>.mp4
+
+# Outside Container
+docker cp <docker-container>:/home/openface-build/processed/<video-id>.csv src/crop/videos
+```
+
 ## Attribution
 
 - [https://github.com/Blade6570/icface](https://github.com/Blade6570/icface)
@@ -83,3 +98,7 @@ ffmpeg -i ./crop/out.mp4 -i ./crop/videos/00296.mp4 -c copy -map 0:0 -map 1:1 -s
   year={2019}
 }
 ```
+
+- [https://github.com/TadasBaltrusaitis/OpenFace](https://github.com/TadasBaltrusaitis/OpenFace)
+  - [Command line arguments](https://github.com/TadasBaltrusaitis/OpenFace/wiki/Command-line-arguments)
+  - [Docker setup](https://github.com/TadasBaltrusaitis/OpenFace/wiki#quickstart-usage-of-openface-with-docker-thanks-edgar-aroutiounian)

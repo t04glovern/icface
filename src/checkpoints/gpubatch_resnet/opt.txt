@@ -2,7 +2,7 @@
 aspect_ratio: 1.0
 batchSize: 1
 checkpoints_dir: ./checkpoints
-csv_path: ./crop/videos/00116.csv
+csv_path: ./crop/videos/00329.csv
 dataroot: ./
 dataset_mode: aligned
 display_id: 0
@@ -35,7 +35,7 @@ which_direction: AtoB
 which_epoch: latest
 which_model_netD: basic
 which_model_netG: resnet_6blocks
-which_ref: ./crop/1.png
+which_ref: ./crop/2.png
 which_ref_d1: path/to/reference/image
 which_ref_d2: path/to/reference/image
 -------------- End ----------------
